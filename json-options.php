@@ -5,7 +5,7 @@
  */
 /*
 Plugin Name: JSON Options
-Plugin URI: http://wordpress.org/extend/plugins/wp-options-mgr/
+Plugin URI: http://wordpress.org/extend/plugins/json-options/
 Description: Import and Export Wordpress Options to JSON with filters
 Author: JeremyJanrain
 Version: 0.0.1
