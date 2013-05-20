@@ -211,13 +211,17 @@ class jsonOptions {
    */
   function admin_menu() {
   	// fold into capture menu
-  	if (class_exists('JanrainCapture')) {
+  	if ( class_exists( 'JanrainCapture' ) ) {
+  		$optPage = add_submenu_page(
+	    	'janrain_capture', __( 'Janrain Capture - Advanced Settings' ), __( 'Janrain Options' ),
+	    	'manage_options', self::$name, array( &$this, 'main' )
+	    );
 	    $exportPage = add_submenu_page(
-	    	'janrain_capture', __( 'Janrain Capture - Export Settings' ), __( 'Export Settings' ),
+	    	'janrain_capture', __( 'Janrain Capture - Export Settings' ), __( '- Options Export' ),
 	    	'manage_options', self::$name . '_export', array( &$this, 'export' )
 	    );
 	    $importPage = add_submenu_page(
-	    	'janrain_capture', __( 'Janrain Capture - Import Settings' ), __( 'Import Settings' ),
+	    	'janrain_capture', __( 'Janrain Capture - Import Settings' ), __( '- Options Import' ),
 	    	'manage_options', self::$name . '_import', array( &$this, 'import' )
 	    );
 	// stand-alone menu
@@ -227,11 +231,11 @@ class jsonOptions {
   			'manage_options', self::$name, array( &$this, 'main' )
 	    );
 	    $exportPage = add_submenu_page(
-	    	self::$name, __( 'JSON Options - Export' ), __( 'Export' ),
+	    	self::$name, __( 'JSON Options - Export' ), __( '- Export JSON' ),
 	    	'manage_options', self::$name . '_export', array( &$this, 'export' )
 	    );
 	    $importPage = add_submenu_page(
-	    	self::$name, __( 'JSON Options - Import' ), __( 'Import' ),
+	    	self::$name, __( 'JSON Options - Import' ), __( '- Import JSON' ),
 	    	'manage_options', self::$name . '_import', array( &$this, 'import' )
 	    );
   	}
@@ -242,6 +246,9 @@ class jsonOptions {
   function main() {
     $args = new stdClass;
     $args->title  = 'JSON Options';
+    if ( class_exists( 'JanrainCapture' ) ) {
+    	$args->title  = 'Janrain Options - embedded JSON Options';
+    }
     $args->action = 'main';
     $this->print_admin( $args );
   }
@@ -250,7 +257,7 @@ class jsonOptions {
    */
   function import() {
     $args = new stdClass;
-    $args->title  = 'Import Options from JSON';
+    $args->title  = 'Import from JSON';
     $args->action = 'import';
     $this->print_admin( $args );
   }
@@ -259,7 +266,7 @@ class jsonOptions {
    */
   function export() {
     $args = new stdClass;
-    $args->title  = 'Export Options to JSON';
+    $args->title  = 'Export to JSON';
     $args->action = 'export';
     $this->print_admin( $args );
   }
