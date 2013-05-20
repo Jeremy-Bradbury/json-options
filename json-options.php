@@ -6,7 +6,7 @@
 /*
 Plugin Name: JSON Options
 Plugin URI: https://github.com/Jeremy-Janrain/json-options/
-Description: Import and Export Wordpress Options to/from JSON with filters. Uses: migrate/backup your options, filter exports AND imports with the multiple filter system, filter options for specific plugin/theme, plugin/theme support: export -> email -> modify JSON -> email -> import, options revision logs, export via copy/paste OR file download.
+Description: Import and Export Wordpress Options to/from JSON with filters. Uses: migrate/backup your options, filter exports AND imports with the multiple filter system, filter options for specific plugin/theme, plugin/theme support - export -> email -> modify JSON -> email -> import, options revision logs, export via copy/paste OR file download.
 Author: JeremyJanrain
 Version: 0.0.1
 Author URI: https://github.com/Jeremy-Janrain/
@@ -33,7 +33,6 @@ class jsonOptions {
   	$desc  = str_ireplace(',', ',<br/>&nbsp;&nbsp;&bull;', $desc);
   	$desc  = str_ireplace(': ', ':<br/>&nbsp;&nbsp;&bull;&nbsp;', $desc);
   	$ver   = ' v' . $this->data['Version'];
-  	
     $this->postMessage = array( 'class' => '', 'message' => '' );
     $this->fields = array(
       // main fields
