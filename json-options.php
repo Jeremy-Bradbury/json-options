@@ -56,9 +56,9 @@ class jsonOptions {
 		'title' => 'Remove Filter',
 		'description' => 'Choose a filter to remove.',
 		'type' => 'select',
-		'default' => array('janrain_capture','rpx'),
+		'default' => array( 'janrain_capture', 'rpx' ),
       	'selected' => 'disabled',
-		'options' => get_option(self::$name . '_filters_available'),
+		'options' => get_option( self::$name . '_filters_available' ),
 		'screen' => 'main',
 	   ),
        array(
@@ -89,8 +89,8 @@ class jsonOptions {
 		'title' => 'Available Filters',
 		'description' => '',
 		'type' => 'multiselect',
-		'default' => array('janrain_capture'),
-		'options' => get_option(self::$name . '_filters_available'),
+		'default' => array( 'janrain_capture'),
+		'options' => get_option( self::$name . '_filters_available' ),
 		'screen' => 'import',
 	   ),
       array(
@@ -98,8 +98,8 @@ class jsonOptions {
         'title' => 'Combine Type',
         'description' => 'How to Combine multiple filters',
         'type' => 'select',
-        'default' => 'AND',
-        'options' => array('AND', 'OR'),
+        'default' => 'OR',
+        'options' => array( 'AND', 'OR' ),
         'screen' => 'import',
       ),
      array(
@@ -108,7 +108,7 @@ class jsonOptions {
         'description' => 'How to Compare filter(s)',
         'type' => 'select',
         'default' => 'contains',
-        'options' => array('contains', 'starts with', 'ends with', 'equal to',),
+        'options' => array( 'contains', 'starts with', 'ends with', 'equal to', ),
         'screen' => 'import',
       ),
       array(
@@ -146,8 +146,8 @@ class jsonOptions {
 		'title' => 'Available Filters',
 		'description' => '',
 		'type' => 'multiselect',
-		'default' => array('janrain_capture'),
-		'options' => get_option(self::$name . '_filters_available'),
+		'default' => array( 'janrain_capture' ),
+		'options' => get_option( self::$name . '_filters_available' ),
 		'screen' => 'export',
 	   ),
       array(
@@ -155,8 +155,8 @@ class jsonOptions {
         'title' => 'Combine Type',
         'description' => 'How to Combine multiple filters',
         'type' => 'select',
-        'default' => 'AND',
-        'options' => array('AND', 'OR'),
+        'default' => 'OR',
+        'options' => array( 'AND', 'OR' ),
         'screen' => 'export',
       ),
      array(
@@ -165,7 +165,7 @@ class jsonOptions {
         'description' => 'How to Compare filter(s)',
         'type' => 'select',
         'default' => 'contains',
-        'options' => array('contains', 'starts with', 'ends with', 'equal to',),
+        'options' => array( 'contains', 'starts with', 'ends with', 'equal to', ),
         'screen' => 'export',
       ),
        array(
@@ -180,11 +180,11 @@ class jsonOptions {
         'description' => 'Export a Preview to the screen or Download the JSON file.',
         'type' => 'select',
         'default' => 'Preview',
-        'options' => array('Preview', 'Download' ),
+        'options' => array( 'Preview', 'Download' ),
         'screen' => 'export',
       ),
     );
-    if ( $_POST ) {
+    if ( count($_POST) > 0 ) {
     	$this->on_post();
     }
     if ( is_multisite() ) {
@@ -212,16 +212,21 @@ class jsonOptions {
   function admin_menu() {
   	// fold into capture menu
   	if ( class_exists( 'JanrainCapture' ) ) {
-  		$optPage = add_submenu_page(
-	    	'janrain_capture', __( 'Janrain Capture - Advanced Settings' ), __( 'Janrain Options' ),
-	    	'manage_options', self::$name, array( &$this, 'main' )
-	    );
+  		$filters = get_option( self::$name . '_filters_available' );
+  		// if we are in debug mode OR have no janrain_capture filter
+  		if ( WP_DEBUG || ! in_array('janrain_capture', $filters ) ) {
+  			// show the filter manager
+	  		$optPage = add_submenu_page(
+		    	'janrain_capture', __( 'Janrain Capture - Janrain Options' ), __( 'Janrain Options' ),
+		    	'manage_options', self::$name, array( &$this, 'main' )
+		    );
+  		}
 	    $exportPage = add_submenu_page(
-	    	'janrain_capture', __( 'Janrain Capture - Export Settings' ), __( '- Options Export' ),
+	    	'janrain_capture', __( 'Janrain Capture - Export Options' ), __( '- Options Export' ),
 	    	'manage_options', self::$name . '_export', array( &$this, 'export' )
 	    );
 	    $importPage = add_submenu_page(
-	    	'janrain_capture', __( 'Janrain Capture - Import Settings' ), __( '- Options Import' ),
+	    	'janrain_capture', __( 'Janrain Capture - Import Options' ), __( '- Options Import' ),
 	    	'manage_options', self::$name . '_import', array( &$this, 'import' )
 	    );
 	// stand-alone menu
