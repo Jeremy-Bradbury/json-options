@@ -488,7 +488,7 @@ HIDDEN;
   			$filter = $_POST[self::$name . '_filter_add'];
   			$valid = array( '-', '_' );
   			if( ! ctype_alnum( str_replace( $valid, '0', $filter ) ) ){
-  				$this->postMessage = array( 'class' => 'error', 'message' => "Invalid filter format [a-zA-Z09-_]" );
+  				$this->postMessage = array( 'class' => 'error', 'message' => "Invalid filter format. [a-zA-Z0-9_-]" );
   			} else {
   				// valid filter lets add it
   				array_push( $this->filters, $filter );
