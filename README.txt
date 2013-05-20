@@ -13,22 +13,20 @@ Import and Export Wordpress Options to JSON with filters.
 
 Import and Export Wordpress Options to JSON with filters.
 
-= Features =
+= Uses =
 
-* migrate an entire WordPress site's options
-* multiple filter system: filter exports AND imports
-* filter options to a specific plugin (assuming plugin's options are properly namespaced)
-* export/import backups
-* export -> modify JSON -> import
-* log settings revisions
-* export via copy/paste or file download
+* migrate/backup your options 
+* filter exports AND imports with the multiple filter system 
+* filter options for specific plugin/theme
+* plugin/theme support: export -> email -> modify JSON -> email -> import
+* options revision logs
+* export via copy/paste OR file download
 
 = Feature Requests =
 
-* import/export more tables: users, blogs, comments
-* import/export entire site
+* import/export all tables & all data
 * multi-site support
-* VIP support
+* WP.com & WP VIP listing/support
 
 == Installation ==
 
@@ -39,7 +37,7 @@ Import and Export Wordpress Options to JSON with filters.
 == Changelog ==
 
 = 0.0.1 =
-* Initial Release
+* Initial Release?
 
 == Frequently Asked Questions ==
 

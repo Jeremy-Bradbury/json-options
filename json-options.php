@@ -6,7 +6,7 @@
 /*
 Plugin Name: JSON Options
 Plugin URI: https://github.com/Jeremy-Janrain/json-options/
-Description: Import and Export Wordpress Options to JSON with filters. Uses: migrate/backup your options, filter exports AND imports with the multiple filter system, filter options for specific plugin/theme, export -> modify JSON -> import, options revision logs, export via copy/paste OR file download.
+Description: Import and Export Wordpress Options to JSON with filters. Uses: migrate/backup your options, filter exports AND imports with the multiple filter system, filter options for specific plugin/theme, plugin/theme support: export -> email -> modify JSON -> email -> import, options revision logs, export via copy/paste OR file download.
 Author: JeremyJanrain
 Version: 0.0.1
 Author URI: https://github.com/Jeremy-Janrain/
@@ -217,16 +217,16 @@ class jsonOptions {
   		if ( WP_DEBUG || ! in_array('janrain_capture', $filters ) ) {
   			// show the filter manager
 	  		$optPage = add_submenu_page(
-		    	'janrain_capture', __( 'Janrain Capture - Janrain Options' ), __( 'Janrain Options' ),
+		    	'janrain_capture', __( 'Janrain Options' ), __( 'Janrain Options' ),
 		    	'manage_options', self::$name, array( &$this, 'main' )
 		    );
   		}
 	    $exportPage = add_submenu_page(
-	    	'janrain_capture', __( 'Janrain Capture - Export Options' ), __( '- Options Export' ),
+	    	'janrain_capture', __( 'Export Janrain Options' ), __( '- Options Export' ),
 	    	'manage_options', self::$name . '_export', array( &$this, 'export' )
 	    );
 	    $importPage = add_submenu_page(
-	    	'janrain_capture', __( 'Janrain Capture - Import Options' ), __( '- Options Import' ),
+	    	'janrain_capture', __( 'Import Janrain Options' ), __( '- Options Import' ),
 	    	'manage_options', self::$name . '_import', array( &$this, 'import' )
 	    );
 	// stand-alone menu
@@ -236,11 +236,11 @@ class jsonOptions {
   			'manage_options', self::$name, array( &$this, 'main' )
 	    );
 	    $exportPage = add_submenu_page(
-	    	self::$name, __( 'JSON Options - Export' ), __( '- Export JSON' ),
+	    	self::$name, __( 'JSON Options - Export to JSON' ), __( '- Export JSON' ),
 	    	'manage_options', self::$name . '_export', array( &$this, 'export' )
 	    );
 	    $importPage = add_submenu_page(
-	    	self::$name, __( 'JSON Options - Import' ), __( '- Import JSON' ),
+	    	self::$name, __( 'JSON Options - Import from JSON' ), __( '- Import JSON' ),
 	    	'manage_options', self::$name . '_import', array( &$this, 'import' )
 	    );
   	}
