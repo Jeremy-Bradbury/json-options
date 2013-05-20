@@ -7,11 +7,11 @@ Stable tag: 0.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Import and Export Wordpress Options to JSON with filters.
+Import and Export Wordpress Options to/from JSON with filters.
 
 == Description ==
 
-Import and Export Wordpress Options to JSON with filters.
+Import and Export Wordpress Options to/from JSON with filters.
 
 = Uses =
 
