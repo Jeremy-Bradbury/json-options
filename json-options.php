@@ -5,7 +5,7 @@
  */
 /*
 Plugin Name: JSON Options
-Plugin URI: http://wordpress.org/extend/plugins/json-options/
+Plugin URI: https://github.com/Jeremy-Janrain/json-options/
 Description: Import and Export Wordpress Options to JSON with filters
 Author: JeremyJanrain
 Version: 0.0.1
@@ -20,13 +20,27 @@ class jsonOptions {
   protected $filter;
   protected $json;
   protected $queries;
+  protected $data;
   /**
    * Initializes plugin, builds array of fields to render.
    */
   function  __construct() {
+  	include_once __DIR__ .'/../../../wp-admin/includes/plugin.php';
+  	$this->data = get_plugin_data( __FILE__, true, true );
+  	$title = $this->data['Title'];
+  	$desc  = $this->data['Description'];
+  	$ver   = ' v' . $this->data['Version'];
+  	
     $this->postMessage = array( 'class' => '', 'message' => '' );
     $this->fields = array(
       // main fields
+      array(
+        'name' => self::$name . '_info',
+        'title' => $title . ' ' . $ver,
+        'type' => 'title',
+        'screen' => 'main',
+      	'description' => $desc,
+      ),
       array(
         'name' => self::$name . '_filter_fields',
         'title' => 'Manage Filters',
@@ -70,7 +84,7 @@ class jsonOptions {
       array(
 		'name' => self::$name . '_filters',
 		'title' => 'Available Filters',
-		'description' => 'Choose filters to apply to your Import',
+		'description' => '',
 		'type' => 'multiselect',
 		'default' => array('janrain_capture'),
 		'options' => get_option(self::$name . '_filters_available'),
@@ -127,7 +141,7 @@ class jsonOptions {
       array(
 		'name' => self::$name . '_filters',
 		'title' => 'Available Filters',
-		'description' => 'Choose filters to apply to your Import or Export',
+		'description' => '',
 		'type' => 'multiselect',
 		'default' => array('janrain_capture'),
 		'options' => get_option(self::$name . '_filters_available'),
@@ -193,25 +207,38 @@ class jsonOptions {
    * Method bound to the admin_menu action.
    */
   function admin_menu() {
-    $optPage = add_menu_page(
-    	__( 'JSON Options' ), __( 'JSON Options' ),
-    	'manage_options', self::$name . '', array( &$this, 'main' )
-    );
-    $exportPage = add_submenu_page(
-          self::$name . '', __( 'JSON Options' ), __( 'Export' ),
-          'manage_options', self::$name . '_export', array( &$this, 'export' )
-    );
-    $importPage = add_submenu_page(
-          self::$name . '', __( 'JSON Options' ), __( 'Import' ),
-          'manage_options', self::$name . '_import', array( &$this, 'import' )
-    );
+  	// fold into capture menu
+  	if (class_exists('JanrainCapture')) {
+	    $exportPage = add_submenu_page(
+	    	'janrain_capture', __( 'Janrain Capture - Export Options' ), __( 'Export Options' ),
+	    	'manage_options', self::$name . '_export', array( &$this, 'export' )
+	    );
+	    $importPage = add_submenu_page(
+	    	'janrain_capture', __( 'Janrain Capture - Import Options' ), __( 'Import Options' ),
+	    	'manage_options', self::$name . '_import', array( &$this, 'import' )
+	    );
+	// stand-alone menu
+  	} else {
+  		$optPage = add_menu_page(
+  			__( 'JSON Options' ), __( 'JSON Options' ),
+  			'manage_options', self::$name, array( &$this, 'main' )
+	    );
+	    $exportPage = add_submenu_page(
+	    	self::$name, __( 'JSON Options - Export' ), __( 'Export' ),
+	    	'manage_options', self::$name . '_export', array( &$this, 'export' )
+	    );
+	    $importPage = add_submenu_page(
+	    	self::$name, __( 'JSON Options - Import' ), __( 'Import' ),
+	    	'manage_options', self::$name . '_import', array( &$this, 'import' )
+	    );
+  	}
   }
   /**
    * Method bound to the JSON Options main menu.
    */
   function main() {
     $args = new stdClass;
-    $args->title  = 'JSON Options Settings';
+    $args->title  = 'JSON Options';
     $args->action = 'main';
     $this->print_admin( $args );
   }
@@ -220,7 +247,7 @@ class jsonOptions {
    */
   function import() {
     $args = new stdClass;
-    $args->title  = 'Import WP Options from JSON';
+    $args->title  = 'Import Options from JSON';
     $args->action = 'import';
     $this->print_admin( $args );
   }
@@ -229,7 +256,7 @@ class jsonOptions {
    */
   function export() {
     $args = new stdClass;
-    $args->title  = 'Export WP Options to JSON';
+    $args->title  = 'Export Options to JSON';
     $args->action = 'export';
     $this->print_admin( $args );
   }
@@ -288,10 +315,10 @@ FOOTER;
     	case 'title':
     		echo@ <<<TITLE
         <tr>
-          <th>
-            <h3 class="title">{$field['title']}</h3>
+          <th valign="top">
+            <h3 class="title" style="margin-top:0;">{$field['title']}</h3>
           </th>
-         <td>
+         <td valign="top">
             <span class="description">{$field['description']}</span>
           </td>
         </tr>
